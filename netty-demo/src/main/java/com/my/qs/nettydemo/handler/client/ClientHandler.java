@@ -1,4 +1,4 @@
-package com.my.qs.nettydemo.handler;
+package com.my.qs.nettydemo.handler.client;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,8 +1,6 @@
 package com.my.qs.nettydemo;
 
-import com.my.qs.nettydemo.protocol.Command;
-import com.my.qs.nettydemo.protocol.LoginRequestPacket;
-import com.my.qs.nettydemo.protocol.Packet;
+import com.my.qs.nettydemo.protocol.*;
 import com.my.qs.nettydemo.serialize.JsonSerializer;
 import com.my.qs.nettydemo.serialize.Serializer;
 import io.netty.buffer.ByteBuf;
@@ -21,7 +19,9 @@ public class PacketCodeC {
     private PacketCodeC() {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
-//        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JsonSerializer();
@@ -29,12 +29,9 @@ public class PacketCodeC {
     }
 
 
-    private static  final int MAGIC_NUMBER = 0x12345678;
+    public static  final int MAGIC_NUMBER = 0x12345678;
 
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet){
-
-        // 创建ByteBuf对象
-        ByteBuf byteBuf = byteBufAllocator.ioBuffer();
+    public ByteBuf encode(ByteBuf byteBuf, Packet packet){
 
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 

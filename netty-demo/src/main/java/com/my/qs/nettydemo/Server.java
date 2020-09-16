@@ -1,7 +1,10 @@
 package com.my.qs.nettydemo;
 
-import com.my.qs.nettydemo.handler.LoginServerHandler;
-import com.my.qs.nettydemo.handler.ServerHandler;
+import com.my.qs.nettydemo.handler.PacketSpliter;
+import com.my.qs.nettydemo.handler.client.MessageRequestHandler;
+import com.my.qs.nettydemo.handler.server.LoginServerHandler;
+import com.my.qs.nettydemo.handler.PacketDecoder;
+import com.my.qs.nettydemo.handler.PacketEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -19,7 +22,12 @@ public class Server {
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
-                        nioSocketChannel.pipeline().addLast(new LoginServerHandler());
+                        nioSocketChannel.pipeline()
+                                .addLast(new PacketSpliter())
+                                .addLast(new PacketDecoder())
+                                .addLast(new LoginServerHandler())
+                                .addLast(new MessageRequestHandler())
+                                .addLast(new PacketEncoder());
                     }
                 });
 
