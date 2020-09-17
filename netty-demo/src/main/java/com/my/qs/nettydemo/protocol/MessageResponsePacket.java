@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class MessageResponsePacket extends Packet {
 
-    private int code;
+    private String from;
     private String message;
 
     @Override

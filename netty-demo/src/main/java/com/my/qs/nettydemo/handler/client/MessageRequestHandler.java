@@ -1,7 +1,11 @@
 package com.my.qs.nettydemo.handler.client;
 
+import com.my.qs.nettydemo.handler.server.MessageResponseHandler;
+import com.my.qs.nettydemo.pojo.Session;
 import com.my.qs.nettydemo.protocol.MessageRequestPacket;
 import com.my.qs.nettydemo.protocol.MessageResponsePacket;
+import com.my.qs.nettydemo.util.SessionUtil;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -14,17 +18,26 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageRequestPacket messageRequestPacket) throws Exception {
-        MessageResponsePacket responsePacket = readMessage(messageRequestPacket);
 
-        channelHandlerContext.channel().writeAndFlush(responsePacket);
+        Channel channel = SessionUtil.getChannel(messageRequestPacket.getTo());
+
+        MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
+        MessageResponsePacket responsePacket = messageResponsePacket.setFrom(SessionUtil.getSession(channelHandlerContext.channel()).getUserName())
+                .setMessage(messageRequestPacket.getMessage());
+        if (channel == null || !SessionUtil.hasLogin(channel)){
+            MessageResponsePacket messageResponse = new MessageResponsePacket();
+            messageResponse.setMessage("消息未发送成功，对方不在线")
+                    .setFrom("SYSTEM");
+            channelHandlerContext.channel().writeAndFlush(messageResponse);
+            return;
+        }
+        channel.writeAndFlush(responsePacket);
+
     }
 
     private MessageResponsePacket readMessage(MessageRequestPacket messageRequestPacket){
         System.out.println(messageRequestPacket);
 
-        MessageResponsePacket responsePacket = new MessageResponsePacket();
-        responsePacket.setCode(200)
-                .setMessage("消息接收成功" + simpleDateFormat.format(new Date()));
-        return responsePacket;
+        return null;
     }
 }
