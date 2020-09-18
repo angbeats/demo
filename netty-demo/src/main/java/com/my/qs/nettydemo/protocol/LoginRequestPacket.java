@@ -1,8 +1,10 @@
 package com.my.qs.nettydemo.protocol;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class LoginRequestPacket extends Packet{
     private String userId;
 

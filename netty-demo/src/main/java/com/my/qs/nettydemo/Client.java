@@ -1,6 +1,8 @@
 package com.my.qs.nettydemo;
 
+import com.my.qs.nettydemo.console.ConsoleCommandManager;
 import com.my.qs.nettydemo.handler.PacketSpliter;
+import com.my.qs.nettydemo.handler.client.CreateGroupResponseHandler;
 import com.my.qs.nettydemo.handler.client.LoginClientHandler;
 import com.my.qs.nettydemo.handler.PacketDecoder;
 import com.my.qs.nettydemo.handler.PacketEncoder;
@@ -36,6 +38,7 @@ public class Client {
                                 .addLast(new PacketDecoder())
                                 .addLast(new LoginClientHandler())
                                 .addLast(new MessageResponseHandler())
+                                .addLast(new CreateGroupResponseHandler())
                                 .addLast(new PacketEncoder());
 
 
@@ -50,7 +53,7 @@ public class Client {
                     System.out.println("连接成功");
                     Channel channel = ((ChannelFuture) future).channel();
                     LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-                    loginRequestPacket.setUsername("aaa");
+                    loginRequestPacket.setUsername("bbb");
                     channel.writeAndFlush(loginRequestPacket);
                     startConsole(channel);
                 } else {
@@ -64,6 +67,7 @@ public class Client {
     private static void startConsole(Channel channel){
         new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
+            ConsoleCommandManager commandManager = new ConsoleCommandManager();
             while (!Thread.interrupted()){
                 if (!SessionUtil.hasLogin(channel)){
                     System.out.println("登录失效或还未登录");
@@ -73,15 +77,7 @@ public class Client {
                         e.printStackTrace();
                     }
                 }else {
-                    System.out.println("请输入要发送的消息:");
-                    String message = scanner.nextLine();
-                    System.out.println("请输入要发送的人:");
-                    String to = scanner.nextLine();
-
-                    MessageRequestPacket requestPacket = new MessageRequestPacket();
-                    requestPacket.setMessage(message)
-                            .setTo(to);
-                    channel.writeAndFlush(requestPacket);
+                    commandManager.exec(scanner, channel);
                 }
 
             }
