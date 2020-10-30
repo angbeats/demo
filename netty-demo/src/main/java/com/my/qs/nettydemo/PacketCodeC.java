@@ -4,7 +4,6 @@ import com.my.qs.nettydemo.protocol.*;
 import com.my.qs.nettydemo.serialize.JsonSerializer;
 import com.my.qs.nettydemo.serialize.Serializer;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +22,11 @@ public class PacketCodeC {
         packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
         packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(Command.QuitGroupRequest, QuitGroupRequestPacket.class);
+        packetTypeMap.put(Command.QuitGroupResponse, QuitGroupResponsePacket.class);
+        packetTypeMap.put(Command.GroupMessageRequest, GroupMessageRequestPacket.class);
+        packetTypeMap.put(Command.GroupMessageResponse, GroupMessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JsonSerializer();

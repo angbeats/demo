@@ -1,18 +1,19 @@
 package com.my.qs.nettydemo.handler.client;
 
-import com.my.qs.nettydemo.handler.server.MessageResponseHandler;
-import com.my.qs.nettydemo.pojo.Session;
 import com.my.qs.nettydemo.protocol.MessageRequestPacket;
 import com.my.qs.nettydemo.protocol.MessageResponsePacket;
 import com.my.qs.nettydemo.util.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
+@ChannelHandler.Sharable
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+
+    public static final MessageRequestHandler INSTANCE = new MessageRequestHandler();
 
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

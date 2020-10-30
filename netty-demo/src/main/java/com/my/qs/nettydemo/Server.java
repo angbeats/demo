@@ -2,9 +2,7 @@ package com.my.qs.nettydemo;
 
 import com.my.qs.nettydemo.handler.PacketSpliter;
 import com.my.qs.nettydemo.handler.client.MessageRequestHandler;
-import com.my.qs.nettydemo.handler.server.AuthHandler;
-import com.my.qs.nettydemo.handler.server.CreateGroupRequestHandler;
-import com.my.qs.nettydemo.handler.server.LoginServerHandler;
+import com.my.qs.nettydemo.handler.server.*;
 import com.my.qs.nettydemo.handler.PacketDecoder;
 import com.my.qs.nettydemo.handler.PacketEncoder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -27,10 +25,12 @@ public class Server {
                         nioSocketChannel.pipeline()
                                 .addLast(new PacketSpliter())
                                 .addLast(new PacketDecoder())
-                                .addLast(new LoginServerHandler())
-                                .addLast(new AuthHandler())
-                                .addLast(new MessageRequestHandler())
-                                .addLast(new CreateGroupRequestHandler())
+                                .addLast(LoginServerHandler.INSTANCE)
+                                .addLast(AuthHandler.INSTANCE)
+                                .addLast(MessageRequestHandler.INSTANCE)
+                                .addLast(CreateGroupRequestHandler.INSTANCE)
+                                .addLast(QuitGroupRequestHandler.INSTANCE)
+                                .addLast(GroupMessageRequestHandler.INSTANCE)
                                 .addLast(new PacketEncoder());
                     }
                 });

@@ -4,12 +4,16 @@ import com.my.qs.nettydemo.pojo.Session;
 import com.my.qs.nettydemo.protocol.LoginRequestPacket;
 import com.my.qs.nettydemo.protocol.LoginResponsePacket;
 import com.my.qs.nettydemo.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.UUID;
 
+@ChannelHandler.Sharable
 public class LoginServerHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginServerHandler INSTANCE = new LoginServerHandler();
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginRequestPacket loginRequestPacket) throws Exception {

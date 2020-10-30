@@ -7,6 +7,8 @@ import com.my.qs.nettydemo.handler.client.LoginClientHandler;
 import com.my.qs.nettydemo.handler.PacketDecoder;
 import com.my.qs.nettydemo.handler.PacketEncoder;
 import com.my.qs.nettydemo.handler.client.MessageRequestHandler;
+import com.my.qs.nettydemo.handler.client.QuitGroupResponseHandler;
+import com.my.qs.nettydemo.handler.server.GroupMessageResponseHandler;
 import com.my.qs.nettydemo.handler.server.MessageResponseHandler;
 import com.my.qs.nettydemo.protocol.LoginRequestPacket;
 import com.my.qs.nettydemo.protocol.MessageRequestPacket;
@@ -36,9 +38,11 @@ public class Client {
                         socketChannel.pipeline()
                                 .addLast(new PacketSpliter())
                                 .addLast(new PacketDecoder())
-                                .addLast(new LoginClientHandler())
-                                .addLast(new MessageResponseHandler())
-                                .addLast(new CreateGroupResponseHandler())
+                                .addLast(LoginClientHandler.INSTANCE)
+                                .addLast(MessageResponseHandler.INSTANCE)
+                                .addLast(CreateGroupResponseHandler.INSTANCE)
+                                .addLast(QuitGroupResponseHandler.INSTANCE)
+                                .addLast(GroupMessageResponseHandler.INSTANCE)
                                 .addLast(new PacketEncoder());
 
 
@@ -53,7 +57,10 @@ public class Client {
                     System.out.println("连接成功");
                     Channel channel = ((ChannelFuture) future).channel();
                     LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-                    loginRequestPacket.setUsername("bbb");
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("请输入用户名：");
+                    String username = scanner.nextLine();
+                    loginRequestPacket.setUsername(username);
                     channel.writeAndFlush(loginRequestPacket);
                     startConsole(channel);
                 } else {
