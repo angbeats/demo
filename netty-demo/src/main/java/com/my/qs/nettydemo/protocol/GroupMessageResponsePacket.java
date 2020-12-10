@@ -21,6 +21,6 @@ public class GroupMessageResponsePacket extends Packet {
 
     @Override
     public Byte getCommand() {
-        return Command.GroupMessageResponse;
+        return Command.GROUP_MESSAGE_RESPONSE;
     }
 }

@@ -1,10 +1,8 @@
 package com.my.qs.nettydemo;
 
-import com.my.qs.nettydemo.handler.PacketSpliter;
+import com.my.qs.nettydemo.handler.*;
 import com.my.qs.nettydemo.handler.client.MessageRequestHandler;
 import com.my.qs.nettydemo.handler.server.*;
-import com.my.qs.nettydemo.handler.PacketDecoder;
-import com.my.qs.nettydemo.handler.PacketEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -24,14 +22,10 @@ public class Server {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                         nioSocketChannel.pipeline()
                                 .addLast(new PacketSpliter())
-                                .addLast(new PacketDecoder())
+                                .addLast(PacketCodecHandler.INSTANCE)
                                 .addLast(LoginServerHandler.INSTANCE)
                                 .addLast(AuthHandler.INSTANCE)
-                                .addLast(MessageRequestHandler.INSTANCE)
-                                .addLast(CreateGroupRequestHandler.INSTANCE)
-                                .addLast(QuitGroupRequestHandler.INSTANCE)
-                                .addLast(GroupMessageRequestHandler.INSTANCE)
-                                .addLast(new PacketEncoder());
+                                .addLast(IMServerHandler.INSTANCE);
                     }
                 });
 

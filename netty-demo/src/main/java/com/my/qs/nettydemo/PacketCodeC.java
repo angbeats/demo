@@ -23,10 +23,10 @@ public class PacketCodeC {
         packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
-        packetTypeMap.put(Command.QuitGroupRequest, QuitGroupRequestPacket.class);
-        packetTypeMap.put(Command.QuitGroupResponse, QuitGroupResponsePacket.class);
-        packetTypeMap.put(Command.GroupMessageRequest, GroupMessageRequestPacket.class);
-        packetTypeMap.put(Command.GroupMessageResponse, GroupMessageResponsePacket.class);
+        packetTypeMap.put(Command.QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+        packetTypeMap.put(Command.QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+        packetTypeMap.put(Command.GROUP_MESSAGE_REQUEST, GroupMessageRequestPacket.class);
+        packetTypeMap.put(Command.GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JsonSerializer();

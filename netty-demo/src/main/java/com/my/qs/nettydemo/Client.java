@@ -1,6 +1,7 @@
 package com.my.qs.nettydemo;
 
 import com.my.qs.nettydemo.console.ConsoleCommandManager;
+import com.my.qs.nettydemo.handler.PacketCodecHandler;
 import com.my.qs.nettydemo.handler.PacketSpliter;
 import com.my.qs.nettydemo.handler.client.CreateGroupResponseHandler;
 import com.my.qs.nettydemo.handler.client.LoginClientHandler;
@@ -37,13 +38,12 @@ public class Client {
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
                                 .addLast(new PacketSpliter())
-                                .addLast(new PacketDecoder())
+                                .addLast(PacketCodecHandler.INSTANCE)
                                 .addLast(LoginClientHandler.INSTANCE)
                                 .addLast(MessageResponseHandler.INSTANCE)
                                 .addLast(CreateGroupResponseHandler.INSTANCE)
                                 .addLast(QuitGroupResponseHandler.INSTANCE)
-                                .addLast(GroupMessageResponseHandler.INSTANCE)
-                                .addLast(new PacketEncoder());
+                                .addLast(GroupMessageResponseHandler.INSTANCE);
 
 
                     }

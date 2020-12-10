@@ -19,6 +19,6 @@ public class QuitGroupResponsePacket extends Packet{
 
     @Override
     public Byte getCommand() {
-        return Command.QuitGroupResponse;
+        return Command.QUIT_GROUP_RESPONSE;
     }
 }

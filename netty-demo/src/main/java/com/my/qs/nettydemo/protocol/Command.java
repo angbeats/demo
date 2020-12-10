@@ -7,8 +7,8 @@ public interface Command {
     Byte MESSAGE_RESPONSE = 4;
     Byte CREATE_GROUP_REQUEST = 5;
     Byte CREATE_GROUP_RESPONSE = 6;
-    Byte QuitGroupRequest = 7;
-    Byte QuitGroupResponse = 8;
-    Byte GroupMessageRequest = 9;
-    Byte GroupMessageResponse = 10;
+    Byte QUIT_GROUP_REQUEST = 7;
+    Byte QUIT_GROUP_RESPONSE = 8;
+    Byte GROUP_MESSAGE_REQUEST = 9;
+    Byte GROUP_MESSAGE_RESPONSE = 10;
 }
