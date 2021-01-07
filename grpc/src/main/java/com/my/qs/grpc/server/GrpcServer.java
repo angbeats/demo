@@ -10,7 +10,7 @@ public class GrpcServer {
 	private Server server;
 
 	private void start() throws IOException {
-		server =NettyServerBuilder.forPort(8888)
+		server = NettyServerBuilder.forPort(8888)
 			.addService(new HelloServerImpl())
 			.build().start();
 
